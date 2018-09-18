@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/JolieEdit.unity
+- path: Assets/Scenes/MichaelEdit.unity
   isLoaded: 1
   isActive: 1
