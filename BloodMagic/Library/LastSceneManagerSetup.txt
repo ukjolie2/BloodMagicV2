@@ -1,8 +1,12 @@
 sceneSetups:
 <<<<<<< HEAD
+<<<<<<< HEAD
 - path: Assets/Scenes/KathysScene.unity
 =======
 - path: Assets/Scenes/BrandonScene.unity
 >>>>>>> edfd832a73155b8b8d74b8c1c08cbc396ed51031
+=======
+- path: Assets/Scenes/JolieEdit.unity
+>>>>>>> 4777e2c1aef3550b80ebb3938471ef424d72a60a
   isLoaded: 1
   isActive: 1
