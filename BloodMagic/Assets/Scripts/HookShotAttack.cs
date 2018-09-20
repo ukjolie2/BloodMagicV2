@@ -2,22 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HookShotAttack : MonoBehaviour {
+public class HookShotAttack : SkillClass {
 
     public LineRenderer lineRenderer;
     public float hookTimeLimit = 1.0f;
     public float pullSpeed = 25.0f;
 
     private Rigidbody2D hook;
+    private PlayerController playerController;
 
     private float timeLeft;
     private int hookCount = 0;
+    private int hookLength;
+    private Vector2 originalHookPos;
+    private float prevDist;
+    private int frameNum = 0;
 
-	void Update ()
+    public void Start()
+    {
+        HpCost = 1; //must be multiplied by the hook length
+        HpReturn = 1;
+        Power = 1;
+    }
+
+    void Update ()
     {
 		if(Input.GetMouseButtonDown(1) && hookCount == 0)
         {
-            shootHook();
+            UseAbility();
         }
 	}
 
@@ -34,18 +46,24 @@ public class HookShotAttack : MonoBehaviour {
             lineRenderer.SetPosition(0, transform.position);
             lineRenderer.SetPosition(1, hook.transform.position);
 
-            pullHook();
+            if (frameNum == 1)
+                pullHook();
+            else
+                frameNum++;
         }
-        else
+        else if (hook != null && timeLeft <= 0f)
         {
             //reset hook
             lineRenderer.enabled = false;
             hook = null;
             hookCount = 0;
+            frameNum = 0;
+            //recover hp
+            playerController.hp += HpReturn * hookLength;
         }
     }
 
-    void shootHook()
+    public override void UseAbility()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 position = transform.position;
@@ -61,21 +79,32 @@ public class HookShotAttack : MonoBehaviour {
         {
             if (hit.rigidbody.gameObject.tag == "Enemy")
             {
-                Debug.Log(hit.collider.name);
                 hook = hit.rigidbody;
-                hook.transform.position = hit.transform.position;
+                //hook.transform.position = hit.transform.position;
+                originalHookPos = hook.transform.position;
+                prevDist = Vector2.Distance(originalHookPos, transform.position);
                 timeLeft = hookTimeLimit;
                 hookCount = 1;
+
+                //decrease hp of player
+                playerController = transform.GetComponent<PlayerController>();
+                if(playerController != null)
+                {
+                    hookLength = (int)Vector3.Distance(transform.position, hook.transform.position);
+                    playerController.hp -= HpCost * hookLength;
+                }
             }
         }
     }
 
     void pullHook()
     {
-
         //if moving away from enemy, pull enemy to player
-        hook.transform.position = Vector3.MoveTowards(hook.transform.position, transform.position, pullSpeed * Time.deltaTime);
+        float currDist = Vector2.Distance(originalHookPos, transform.position);
+        if(currDist > prevDist)
+            hook.transform.position = Vector3.MoveTowards(hook.transform.position, transform.position, pullSpeed * Time.deltaTime);
         //if moving toward enemy, pull to enemy
-        //transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, pullSpeed * Time.deltaTime);
+        else
+            transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, pullSpeed * Time.deltaTime);
     }
 }
