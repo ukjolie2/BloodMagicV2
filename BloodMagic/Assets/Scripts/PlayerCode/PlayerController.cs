@@ -12,11 +12,15 @@ public class PlayerController : MonoBehaviour
     public GameObject spawner;
     EnemySpawn spawnPoint;
 
+    //Player status
+    bool slide = false;
+
     //stats
     public int hp = 100;
 
     //movement
-    public float moveSpeed = 1.0f;
+    Vector3 move;
+    public float moveSpeed = 1f;
     public float rotationSpeed = 5.0f;
     public bool usingController = false;
 
@@ -26,6 +30,7 @@ public class PlayerController : MonoBehaviour
         attacks = gameObject.GetComponent<CreateAttack>();
         healthBar = gameObject.GetComponent<HealthChange>();
         spawnPoint = spawner.GetComponent<EnemySpawn>();
+        move = new Vector3();
 	}
 
     // Update is called once per frame
@@ -38,8 +43,107 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
         }
 
+        float xDir = Input.GetAxis("Horizontal");
+        float yDir = Input.GetAxis("Vertical");
+        move = new Vector3(xDir, yDir, 0);
+        if (xDir < 0)
+        {
+            if (slide)
+            {
+                if (move.x > 0)
+                {
+                    move.x += -moveSpeed * 0.002f;
+                }
+                else
+                {
+                    move.x += -moveSpeed * 0.11f;
+                }
+            }
+            else
+            {
+                move.x = -moveSpeed;
+            }
+        }
+        else if (Input.GetAxis("Horizontal") > 0)
+        {
+            if (slide)
+            {
+                if (move.x < 0)
+                {
+                    move.x += moveSpeed * 0.002f;
+                }
+                else
+                {
+                    move.x += moveSpeed * 0.11f;
+                }
+            }
+            else
+            {
+                move.x = moveSpeed;
+            }
+        }
+        else
+        {
+            if (slide)
+            {
+                move.x += move.x * 0.05f;
+            }
+            else
+            {
+                move.x = 0;
+            }
+        }
+
+
+        if (Input.GetAxis("Vertical") < 0)
+        {
+            if (slide)
+            {
+                if (move.y > 0)
+                {
+                    move.y += -moveSpeed * 0.002f;
+                }
+                else
+                {
+                    move.y += -moveSpeed * 0.11f;
+                }
+            }
+            else
+            {
+                move.y = -moveSpeed;
+            }
+        }
+        else if (Input.GetAxis("Vertical") > 0)
+        {
+            if (slide)
+            {
+                if (move.y < 0)
+                {
+                    move.y += moveSpeed * 0.002f;
+                }
+                else
+                {
+                    move.y += moveSpeed * 0.11f;
+                }
+            }
+            else
+            {
+                move.y = moveSpeed;
+            }
+        }
+        else
+        {
+            if (slide)
+            {
+                move.y += move.y * 0.05f;
+            }
+            else
+            {
+                move.y = 0;
+            }
+        }
         // Translate character
-        var move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+        //move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
         transform.position += move * moveSpeed * Time.deltaTime;
 
         Vector2 direction;
@@ -49,7 +153,7 @@ public class PlayerController : MonoBehaviour
         //Attack
         if(Input.GetButtonDown("Fire1"))
         {
-            attacks.AttackCloseRange();
+            attacks.AttackLongRange();
         }
         if (usingController)
         {
@@ -72,6 +176,22 @@ public class PlayerController : MonoBehaviour
     private void LateUpdate()
     {
         //Spawn all the enemies 
-        spawnPoint.spawn();
+        //spawnPoint.spawn();
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Blood"))
+        {
+            slide = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Blood"))
+        {
+            slide = false;
+        }
     }
 }
