@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
+    public int tester;
+
     //this class spawns the attacks the player uses
     CreateAttack attacks;
     HealthChange healthBar;
@@ -13,7 +16,7 @@ public class PlayerController : MonoBehaviour
     EnemySpawn spawnPoint;
 
     //Player status
-    bool slide = false;
+    public bool slide = false;
 
     //stats
     public int hp = 100;
@@ -45,7 +48,6 @@ public class PlayerController : MonoBehaviour
 
         float xDir = Input.GetAxis("Horizontal");
         float yDir = Input.GetAxis("Vertical");
-        move = new Vector3(xDir, yDir, 0);
         if (xDir < 0)
         {
             if (slide)
@@ -56,7 +58,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    move.x += -moveSpeed * 0.11f;
+                    move.x += -moveSpeed * 0.11f * tester;
                 }
             }
             else
@@ -64,7 +66,7 @@ public class PlayerController : MonoBehaviour
                 move.x = -moveSpeed;
             }
         }
-        else if (Input.GetAxis("Horizontal") > 0)
+        else if (xDir > 0)
         {
             if (slide)
             {
@@ -74,7 +76,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    move.x += moveSpeed * 0.11f;
+                    move.x += moveSpeed * 0.11f * tester;
                 }
             }
             else
@@ -86,7 +88,7 @@ public class PlayerController : MonoBehaviour
         {
             if (slide)
             {
-                move.x += move.x * 0.05f;
+                move.x -= move.x * 0.05f;
             }
             else
             {
@@ -95,17 +97,17 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if (Input.GetAxis("Vertical") < 0)
+        if (yDir < 0)
         {
             if (slide)
             {
                 if (move.y > 0)
                 {
-                    move.y += -moveSpeed * 0.002f;
+                    move.y += -moveSpeed * 0.002f * tester;
                 }
                 else
                 {
-                    move.y += -moveSpeed * 0.11f;
+                    move.y += -moveSpeed * 0.11f * tester;
                 }
             }
             else
@@ -113,17 +115,17 @@ public class PlayerController : MonoBehaviour
                 move.y = -moveSpeed;
             }
         }
-        else if (Input.GetAxis("Vertical") > 0)
+        else if (yDir > 0)
         {
             if (slide)
             {
                 if (move.y < 0)
                 {
-                    move.y += moveSpeed * 0.002f;
+                    move.y += moveSpeed * 0.002f * tester;
                 }
                 else
                 {
-                    move.y += moveSpeed * 0.11f;
+                    move.y += moveSpeed * 0.11f * tester;
                 }
             }
             else
@@ -135,7 +137,7 @@ public class PlayerController : MonoBehaviour
         {
             if (slide)
             {
-                move.y += move.y * 0.05f;
+                move.y -= move.y * 0.05f;
             }
             else
             {
@@ -144,7 +146,7 @@ public class PlayerController : MonoBehaviour
         }
         // Translate character
         //move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        transform.position += move * moveSpeed * Time.deltaTime;
+        transform.position += move * Time.deltaTime;
 
         Vector2 direction;
         float angle = 0f;

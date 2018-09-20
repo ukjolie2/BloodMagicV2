@@ -161,6 +161,10 @@ Prefab:
       propertyPath: target
       value: 
       objectReference: {fileID: 556718505}
+    - target: {fileID: 1112708846222434, guid: ebf48a4e6a203d3428d858d70be09edf, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf48a4e6a203d3428d858d70be09edf, type: 2}
   m_IsPrefabAsset: 0
@@ -215,7 +219,22 @@ Prefab:
     - target: {fileID: 114563522730457774, guid: ad6524bdfe23931488a3ebc3b5c8d3d8,
         type: 2}
       propertyPath: moveSpeed
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 50994569915993144, guid: ad6524bdfe23931488a3ebc3b5c8d3d8,
+        type: 2}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 50994569915993144, guid: ad6524bdfe23931488a3ebc3b5c8d3d8,
+        type: 2}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114563522730457774, guid: ad6524bdfe23931488a3ebc3b5c8d3d8,
+        type: 2}
+      propertyPath: tester
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114091131965719826, guid: ad6524bdfe23931488a3ebc3b5c8d3d8, type: 2}
@@ -232,6 +251,31 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4549864735293718, guid: ad6524bdfe23931488a3ebc3b5c8d3d8,
     type: 2}
   m_PrefabInternal: {fileID: 363513676}
+--- !u!61 &556718506
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 556718500}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.1, y: 1}
+    newSize: {x: 1.1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1001 &655431011
 Prefab:
   m_ObjectHideFlags: 0
@@ -280,6 +324,10 @@ Prefab:
       propertyPath: target
       value: 
       objectReference: {fileID: 556718505}
+    - target: {fileID: 1112708846222434, guid: ebf48a4e6a203d3428d858d70be09edf, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf48a4e6a203d3428d858d70be09edf, type: 2}
   m_IsPrefabAsset: 0
@@ -455,8 +503,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1154398290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.57, y: 2.04, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1.56, y: 0.22, z: 0}
+  m_LocalScale: {x: 3.2699811, y: 5.1014566, z: 1.4295}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
@@ -470,10 +518,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.04993975, y: -0.11079618}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -484,7 +532,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 1.33}
+  m_Size: {x: 1.6837142, y: 0.4875453}
   m_EdgeRadius: 0
 --- !u!114 &1154398294
 MonoBehaviour:
@@ -545,6 +593,10 @@ Prefab:
       propertyPath: target
       value: 
       objectReference: {fileID: 556718505}
+    - target: {fileID: 1112708846222434, guid: ebf48a4e6a203d3428d858d70be09edf, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf48a4e6a203d3428d858d70be09edf, type: 2}
   m_IsPrefabAsset: 0
@@ -837,6 +889,10 @@ Prefab:
       propertyPath: target
       value: 
       objectReference: {fileID: 556718505}
+    - target: {fileID: 1112708846222434, guid: ebf48a4e6a203d3428d858d70be09edf, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf48a4e6a203d3428d858d70be09edf, type: 2}
   m_IsPrefabAsset: 0

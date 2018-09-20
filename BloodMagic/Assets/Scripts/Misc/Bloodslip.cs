@@ -14,16 +14,6 @@ public class Bloodslip : MonoBehaviour {
 
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("hello");
-        if (other.CompareTag("Enemy") || other.CompareTag("Player"))
-        {
-            Rigidbody2D moveThis = other.gameObject.GetComponent<Rigidbody2D>();
-            
-        }
-    }
-
     void SlipThis(Rigidbody2D slipper)
     {
 
