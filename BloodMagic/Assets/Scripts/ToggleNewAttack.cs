@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ToggleColor : MonoBehaviour {
+public class ToggleNewAttack : MonoBehaviour {
 
     private UnityEngine.UI.Toggle toggle;
-    public static bool SelectActive = true;
+    public static bool SelectNew = false;
+    public static int NewAttack;
     public Color ActiveColor = Color.white;
     public Color UnactiveColor = Color.gray;
     public bool usingController = false;
@@ -14,9 +15,8 @@ public class ToggleColor : MonoBehaviour {
     public enum Dpad { None, Right, Left, Up, Down }
     private bool flag = true;
     private Dpad control = Dpad.None;
-    private int PressNumber = 0;
+    private int PressNumber = 1;
     public int HoldCount = 0;
-    private bool holdFlag = false;
 
     private void Start()
     {
@@ -59,26 +59,50 @@ public class ToggleColor : MonoBehaviour {
             yield return new WaitForSeconds(.15f); // delay it as you wish 
             if (value == Dpad.Right)   //** go right
             {
-                PressNumber = 3;
-            }
+
+                if (PressNumber == 4)
+                {
+                    PressNumber = 4;
+                }
+                if (PressNumber == 3)
+                {
+                    PressNumber = 4;
+                }
+                if (PressNumber == 2)
+                {
+                    PressNumber = 3;
+                }
+                if (PressNumber == 1)
+                {
+                    PressNumber = 2;
+                }
+        }
             if (value == Dpad.Left)  //** go left
             {
-                if (Input.GetAxis("DpadX") <= 0.5 | Input.GetAxis("DpadY") <= 0.5)
-            {
-                    if (holdFlag == false)
-                    {
-                        PressNumber = 2;
-                        holdFlag = true;
-                    }
-            }
+                if (PressNumber == 1)
+                {
+                    PressNumber = 1;
+                }
+                if (PressNumber == 2)
+                {
+                    PressNumber = 1;
+                }
+                if (PressNumber == 3)
+                {
+                    PressNumber = 2;
+                }
+                if (PressNumber == 4)
+                {
+                    PressNumber = 3;
+                }
         }
             if (value == Dpad.Up)  //** go up
             {
-                PressNumber = 1;
+
             }
             if (value == Dpad.Down) //** go down
             {
-                PressNumber = 4;
+
             }
 
         StopCoroutine("DpadControl");
@@ -108,11 +132,7 @@ public class ToggleColor : MonoBehaviour {
         }
         if (Input.GetKeyUp(KeyCode.Alpha2))
         {
-            if (holdFlag == false)
-            {
-                PressNumber = 2;
-                holdFlag = true;
-            }
+            PressNumber = 2;
         }
         if (Input.GetKeyUp(KeyCode.Alpha3))
         {
@@ -122,32 +142,30 @@ public class ToggleColor : MonoBehaviour {
         {
             PressNumber = 4;
         }
+        if (Input.GetKeyUp(KeyCode.Tab)|| Input.GetButtonDown("Fire3"))
+        {
+            NewAttack = PressNumber;
+            ToggleColor.SelectActive = true;
+        }
         if (Input.GetKey(KeyCode.Alpha1) || Input.GetKey(KeyCode.Alpha2) || 
             Input.GetKey(KeyCode.Alpha3) || Input.GetKey(KeyCode.Alpha4) ||
-            Input.GetAxis("DpadX") >= .5 || Input.GetAxis("DpadY") >= .5 ||
-            Input.GetAxis("DpadX") <= -.5 || Input.GetAxis("DpadY") <= -.5)
+            Input.GetAxis("DpadX") >= .5 || Input.GetAxis("DpadY") >= .5)
         {
             HoldCount += 1;
         }
         else
         {
             HoldCount = 0;
-            holdFlag = false;
-
         }
 
-        if (HoldCount >= 50)
+        if (HoldCount >= 100)
         {
-            SelectActive = false;
+            ActiveColor = Color.red;
         }
 
         if (PressNumber == AttackNumber)
         {
-            if (holdFlag == false)
-            {
-                toggle.isOn = !toggle.isOn;
-                PressNumber = 0;
-            }
+            toggle.isOn = !toggle.isOn;
         }
         PadControl();
     }
