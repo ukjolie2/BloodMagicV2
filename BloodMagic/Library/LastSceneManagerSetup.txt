@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/KathysScene.unity
+=======
+- path: Assets/Scenes/BrandonScene.unity
+>>>>>>> edfd832a73155b8b8d74b8c1c08cbc396ed51031
   isLoaded: 1
   isActive: 1
