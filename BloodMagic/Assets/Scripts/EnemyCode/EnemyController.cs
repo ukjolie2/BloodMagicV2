@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : EnemyClass
 {
-    //Status
-    public bool slide = false;
 
-    public Transform target;
-    public float moveSpeed = 3f;
-    public int hp = 10;
-    //enemy will head this way
-    Vector3 direction;
-    void Update()
+    private void Start()
+    {
+        moveSpeed = 3f;
+        slide = false;
+        hp = 10;
+        collider = GetComponent<Collider2D>();
+
+}
+    void FixedUpdate()
     {
         if (hp <= 0)
         {
@@ -21,7 +22,7 @@ public class EnemyController : MonoBehaviour
         transform.LookAt(target.position);
         transform.Rotate(new Vector3(0, -90, 0), Space.Self);
 
-        if (Vector3.Distance(transform.position, target.position) > 1f)
+        if (Vector3.Distance(transform.position, target.position) > 2.5f)
         {
             if(slide)
             {
@@ -41,20 +42,21 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionStay2D(Collision2D collision)
     {
         Debug.Log("Touch");
-        if (other.CompareTag("Blood"))
+        if (collision.transform.CompareTag("Blood"))
         {
             slide = true;
         }
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    void OnCollisionExit2D(Collision2D collision)
     {
-        if (other.CompareTag("Blood"))
+        if (collision.transform.CompareTag("Blood"))
         {
             slide = false;
         }
     }
+
 }
