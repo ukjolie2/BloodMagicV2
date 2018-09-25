@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/KathysScene.unity
+=======
+- path: Assets/Scenes/Prototype2.unity
+>>>>>>> 6db47eeaa42b11a969042cafd2150c1afa5b61c9
   isLoaded: 1
   isActive: 1

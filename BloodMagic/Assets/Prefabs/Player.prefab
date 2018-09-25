@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 212964249574404528}
   - component: {fileID: 114563522730457774}
   - component: {fileID: 114652732838858798}
-  - component: {fileID: 114091131965719826}
   - component: {fileID: 61356591970571702}
   - component: {fileID: 50994569915993144}
   m_Layer: 0
@@ -90,64 +89,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &114091131965719826
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1460225929563248}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab660d042ac557345845c7cd8ae43371, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ignoreOneWayPlatformsThisFrame: 0
-  _skinWidth: 0.02
-  platformMask:
-    m_Bits: 0
-  triggerMask:
-    m_Bits: 0
-  oneWayPlatformMask:
-    m_Bits: 0
-  slopeLimit: 30
-  jumpingThreshold: 0.07
-  slopeSpeedMultiplier:
-    m_Curve:
-    - time: -90
-      value: 1.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - time: 90
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  totalHorizontalRays: 8
-  totalVerticalRays: 4
-  _slopeLimitTangent: 3.7320504
-  ground: {fileID: 0}
-  landingPoint: {x: 0, y: 0}
-  _verticalDistanceBetweenRays: 0
-  _horizontalDistanceBetweenRays: 0
-  _isGoingUpSlope: 0
 --- !u!114 &114563522730457774
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,7 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ee45ed92dd05e478834db7d667c32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tester: 0
   spawner: {fileID: 0}
+  slide: 0
   hp: 150
   moveSpeed: 5
   rotationSpeed: 5
@@ -175,8 +118,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 178b9159ba42ff34daeeffa291223ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closeRange: {fileID: 50853887700869202, guid: 191e5676a8780ba408cb0271656aacf0,
+  closeRange: {fileID: 50451982140787480, guid: ecda02b25c03c41499992c8da66ed29f,
     type: 2}
+  bookRange: {fileID: 50177852795945388, guid: 63538d35cdec9b54e92d651a5ac3e3ca, type: 2}
+  longRange: {fileID: 50853887700869202, guid: 191e5676a8780ba408cb0271656aacf0, type: 2}
 --- !u!212 &212964249574404528
 SpriteRenderer:
   m_ObjectHideFlags: 1
