@@ -36,7 +36,7 @@ public class HookShotAttack : SkillClass {
 
     void Update ()
     {
-        if (Input.GetMouseButtonDown(1) && hookCount == 0)
+        if (Input.GetButtonDown("Jump") && hookCount == 0)
         {
             UseAbility();
             freezePosition = transform.position;
