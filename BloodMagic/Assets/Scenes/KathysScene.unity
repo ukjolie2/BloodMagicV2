@@ -135,7 +135,7 @@ MonoBehaviour:
   target: {fileID: 976618523}
   slide: 0
   direction: {x: 0, y: 0, z: 0}
-  collider: {fileID: 0}
+  closeRange: {fileID: 0}
 --- !u!1 &71695499 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1112708846222434, guid: ebf48a4e6a203d3428d858d70be09edf,
@@ -158,7 +158,7 @@ MonoBehaviour:
   target: {fileID: 976618523}
   slide: 0
   direction: {x: 0, y: 0, z: 0}
-  collider: {fileID: 0}
+  closeRange: {fileID: 0}
 --- !u!1001 &207065482
 Prefab:
   m_ObjectHideFlags: 0
@@ -427,7 +427,7 @@ MonoBehaviour:
   target: {fileID: 976618523}
   slide: 0
   direction: {x: 0, y: 0, z: 0}
-  collider: {fileID: 0}
+  closeRange: {fileID: 0}
 --- !u!1001 &788070291
 Prefab:
   m_ObjectHideFlags: 0
@@ -560,8 +560,8 @@ GameObject:
   - component: {fileID: 976618517}
   - component: {fileID: 976618516}
   - component: {fileID: 976618515}
-  - component: {fileID: 976618519}
   - component: {fileID: 976618518}
+  - component: {fileID: 976618519}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -584,7 +584,7 @@ LineRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -738,17 +738,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 976618514}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bead93b77c243641abe9743fc953e77, type: 3}
+  m_Script: {fileID: 11500000, guid: 31ee45ed92dd05e478834db7d667c32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tester: 0
-  attacks: {fileID: 0}
-  healthBar: {fileID: 0}
   spawner: {fileID: 0}
-  spawnPoint: {fileID: 0}
   slide: 0
   hp: 100
-  move: {x: 0, y: 0, z: 0}
   moveSpeed: 5
   rotationSpeed: 5
   usingController: 0
@@ -1068,6 +1064,7 @@ GameObject:
   - component: {fileID: 1817263219}
   - component: {fileID: 1817263218}
   - component: {fileID: 1817263217}
+  - component: {fileID: 1817263222}
   m_Layer: 0
   m_Name: whitebox
   m_TagString: Untagged
@@ -1254,6 +1251,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 19.2, y: 0.80286837}
   m_EdgeRadius: 0
+--- !u!95 &1817263222
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1817263214}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1983051514
 GameObject:
   m_ObjectHideFlags: 0
