@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
     //Player status
     public bool slide = false;
+    private bool mobility = true;
 
     //stats
     public int hp = 100;
@@ -46,125 +47,31 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        float xDir = Input.GetAxis("Horizontal");
-        float yDir = Input.GetAxis("Vertical");
-        if (xDir < 0)
-        {
-            if (slide)
-            {
-                if (move.x > 0)
-                {
-                    move.x += -moveSpeed * 0.002f;
-                }
-                else
-                {
-                    move.x += -moveSpeed * 0.11f * tester;
-                }
-            }
-            else
-            {
-                move.x = -moveSpeed;
-            }
-        }
-        else if (xDir > 0)
-        {
-            if (slide)
-            {
-                if (move.x < 0)
-                {
-                    move.x += moveSpeed * 0.002f;
-                }
-                else
-                {
-                    move.x += moveSpeed * 0.11f * tester;
-                }
-            }
-            else
-            {
-                move.x = moveSpeed;
-            }
-        }
-        else
-        {
-            if (slide)
-            {
-                move.x -= move.x * 0.05f;
-            }
-            else
-            {
-                move.x = 0;
-            }
-        }
-
-
-        if (yDir < 0)
-        {
-            if (slide)
-            {
-                if (move.y > 0)
-                {
-                    move.y += -moveSpeed * 0.002f * tester;
-                }
-                else
-                {
-                    move.y += -moveSpeed * 0.11f * tester;
-                }
-            }
-            else
-            {
-                move.y = -moveSpeed;
-            }
-        }
-        else if (yDir > 0)
-        {
-            if (slide)
-            {
-                if (move.y < 0)
-                {
-                    move.y += moveSpeed * 0.002f * tester;
-                }
-                else
-                {
-                    move.y += moveSpeed * 0.11f * tester;
-                }
-            }
-            else
-            {
-                move.y = moveSpeed;
-            }
-        }
-        else
-        {
-            if (slide)
-            {
-                move.y -= move.y * 0.05f;
-            }
-            else
-            {
-                move.y = 0;
-            }
-        }
-        // Translate character
-        //move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        transform.position += move * Time.deltaTime;
-
         Vector2 direction;
         float angle = 0f;
         Quaternion rotation;
 
         //Attack
-        if(Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
         {
             attacks.AttackLongRange();
+            mobility = false;
         }
-        else if(Input.GetButtonDown("Fire2"))
+        else if (Input.GetButtonDown("Fire2"))
         {
             attacks.AttackCloseRange();
+            mobility = false;
         }
-        else if(Input.GetButtonDown("Fire3"))
+        else if (Input.GetButtonDown("Fire3"))
         {
             attacks.AttackBookRange();
+            mobility = false;
         }
+        else
+        {
+            mobility = true;
+        }
+
         if (usingController)
         {
             // Rotate character using right joystick
@@ -181,6 +88,111 @@ public class PlayerController : MonoBehaviour
             rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
         }
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+
+        if (mobility)
+        {
+            float xDir = Input.GetAxis("Horizontal");
+            float yDir = Input.GetAxis("Vertical");
+            if (xDir < 0)
+            {
+                if (slide)
+                {
+                    if (move.x > 0)
+                    {
+                        move.x += -moveSpeed * 0.002f;
+                    }
+                    else
+                    {
+                        move.x += -moveSpeed * 0.11f * tester;
+                    }
+                }
+                else
+                {
+                    move.x = -moveSpeed;
+                }
+            }
+            else if (xDir > 0)
+            {
+                if (slide)
+                {
+                    if (move.x < 0)
+                    {
+                        move.x += moveSpeed * 0.002f;
+                    }
+                    else
+                    {
+                        move.x += moveSpeed * 0.11f * tester;
+                    }
+                }
+                else
+                {
+                    move.x = moveSpeed;
+                }
+            }
+            else
+            {
+                if (slide)
+                {
+                    move.x -= move.x * 0.05f;
+                }
+                else
+                {
+                    move.x = 0;
+                }
+            }
+
+
+            if (yDir < 0)
+            {
+                if (slide)
+                {
+                    if (move.y > 0)
+                    {
+                        move.y += -moveSpeed * 0.002f * tester;
+                    }
+                    else
+                    {
+                        move.y += -moveSpeed * 0.11f * tester;
+                    }
+                }
+                else
+                {
+                    move.y = -moveSpeed;
+                }
+            }
+            else if (yDir > 0)
+            {
+                if (slide)
+                {
+                    if (move.y < 0)
+                    {
+                        move.y += moveSpeed * 0.002f * tester;
+                    }
+                    else
+                    {
+                        move.y += moveSpeed * 0.11f * tester;
+                    }
+                }
+                else
+                {
+                    move.y = moveSpeed;
+                }
+            }
+            else
+            {
+                if (slide)
+                {
+                    move.y -= move.y * 0.05f;
+                }
+                else
+                {
+                    move.y = 0;
+                }
+            }
+            // Translate character
+            //move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+            transform.position += move * Time.deltaTime;
+        }
     }
 
     private void LateUpdate()

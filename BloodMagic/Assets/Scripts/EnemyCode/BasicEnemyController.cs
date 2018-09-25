@@ -5,11 +5,14 @@ using UnityEngine;
 public class BasicEnemyController : EnemyClass
 {
     public CloseRangeAttack closeRange;
+    CreateAttack attacks;
+    int slowDown = 0;
     private void Start()
     {
         moveSpeed = 3f;
         slide = false;
         hp = 10;
+        attacks = gameObject.GetComponent<CreateAttack>();
 
 }
     void FixedUpdate()
@@ -18,33 +21,50 @@ public class BasicEnemyController : EnemyClass
         {
             Destroy(gameObject);
         }
-        transform.LookAt(target.position);
-        transform.Rotate(new Vector3(0, -90, 0), Space.Self);
-
-        if (Vector3.Distance(transform.position, target.position) > 2.5f)
+        if(target != null)
         {
-            if(slide)
+            transform.LookAt(target.position);
+            transform.Rotate(new Vector3(0, -90, 0), Space.Self);
+
+            if (Vector3.Distance(transform.position, target.position) > 2.5f)
             {
-                direction += direction * Time.deltaTime * 0.75f;
+                if (slide)
+                {
+                    direction += direction * Time.deltaTime * 0.75f;
+                }
+                else
+                {
+                    direction = new Vector3(moveSpeed * Time.deltaTime, 0, 0);
+                }
+                transform.Translate(direction);
+            }
+            else if (slide)
+            {
+                direction = new Vector3(moveSpeed * Time.deltaTime * 0.05f, 0, 0);
+                transform.Translate(direction);
+                attacks.AttackCloseRange();
             }
             else
             {
-                direction = new Vector3(moveSpeed * Time.deltaTime, 0, 0);
+                if(slowDown == 5)
+                {
+                    attacks.AttackCloseRange();
+                    slowDown = 0;
+                }
+                slowDown++;
             }
-            transform.Translate(direction);
-        }
-        else if(slide)
-        {
-            Debug.Log("Slipping");
-            direction = new Vector3(moveSpeed * Time.deltaTime * 0.05f, 0, 0);
-            transform.Translate(direction);
         }
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Touch");
-        if (collision.transform.CompareTag("Blood"))
+        
+        
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Blood"))
         {
             slide = true;
         }

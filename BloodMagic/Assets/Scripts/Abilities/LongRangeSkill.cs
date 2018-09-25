@@ -5,6 +5,7 @@ using UnityEngine;
 public class LongRangeSkill : SkillClass {
 
     private PlayerController player;
+    private string name;
     public void Start()
     {
         player = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -14,6 +15,11 @@ public class LongRangeSkill : SkillClass {
         InvokeRepeating("DestroySelf", 3, 1f);
     }
 
+    public void setName(string pass)
+    {
+        name = pass;
+    }
+
     private void DestroySelf()
     {
         Destroy(gameObject);
@@ -21,18 +27,26 @@ public class LongRangeSkill : SkillClass {
 
     public override void UseAbility()
     {
-        player.hp -= HpCost;
+        if (gameObject.tag == "Player")
+        {
+            player.hp -= HpCost;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy"))
+        Debug.Log(other.tag);
+        if (other.CompareTag("Enemy") && name == "Player")
         {
             BasicEnemyController enemyHp = other.gameObject.GetComponent<BasicEnemyController>();
             enemyHp.hp -= Power;
             player.hp += HpReturn;
         }
-        if(!other.CompareTag("Player"))
+        else if(name == "Enemy" && other.CompareTag("Player"))
+        {
+            player.hp -= Power;
+        }
+        if(!other.CompareTag(name))
         {
             Destroy(gameObject);
         }
