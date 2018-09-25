@@ -5,8 +5,11 @@ using UnityEngine;
 public class HookShotAttack : SkillClass {
 
     public LineRenderer lineRenderer;
-    public float hookTimeLimit = 1.0f;
+    public float hookTimeLimit = .5f;
     public float pullSpeed = 25.0f;
+    public float maxLength = 10f;
+    public float endDistance = 1.4f;
+    //public GameObject hookSpriteGO; 
 
     private Rigidbody2D hook;
     private PlayerController playerController;
@@ -15,8 +18,14 @@ public class HookShotAttack : SkillClass {
     private int hookCount = 0;
     private int hookLength;
     private Vector2 originalHookPos;
+    private Vector2 freezePosition;
     private float prevDist;
     private int frameNum = 0;
+    private bool isEnemy;
+    private Vector2 hitPoint;
+    private Vector3 direction;
+    private GameObject hookSprite;
+    private float distance;
 
     public void Start()
     {
@@ -27,11 +36,12 @@ public class HookShotAttack : SkillClass {
 
     void Update ()
     {
-		if(Input.GetMouseButtonDown(1) && hookCount == 0)
+        if (Input.GetButtonDown("Jump") && hookCount == 0)
         {
             UseAbility();
+            freezePosition = transform.position;
         }
-	}
+    }
 
     void LateUpdate()
     {
@@ -40,11 +50,20 @@ public class HookShotAttack : SkillClass {
             //lets player hook on for hook time limit
             timeLeft -= Time.deltaTime;
 
+            //hookSprite.transform.position = transform.position;
+            //float scaleX = Mathf.Abs(transform.position.x - hitPoint.x);
+            //hookSprite.transform.localScale = new Vector3(scaleX / 4, 1, 1);
+
+            
             //draw hook line
             lineRenderer.enabled = true;
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, hook.transform.position);
+            if (isEnemy)
+                hitPoint = hook.transform.position;
+
+            lineRenderer.SetPosition(1, hitPoint);
+            //hookSprite.transform.Rotate(hitPoint - (Vector2)hookSprite.transform.position);
 
             if (frameNum == 1)
                 pullHook();
@@ -58,6 +77,7 @@ public class HookShotAttack : SkillClass {
             hook = null;
             hookCount = 0;
             frameNum = 0;
+            isEnemy = false;
             //recover hp
             playerController.hp += HpReturn * hookLength;
         }
@@ -67,21 +87,32 @@ public class HookShotAttack : SkillClass {
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 position = transform.position;
-        Vector2 direction = mousePosition - position;
+        direction = mousePosition - position;
 
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        gameObject.GetComponent<Collider2D>().enabled = false;
         //cast ray in direction of mouse
         RaycastHit2D hit = Physics2D.Raycast(position, direction, Mathf.Infinity);
-        gameObject.GetComponent<BoxCollider2D>().enabled = true;
+        gameObject.GetComponent<Collider2D>().enabled = true;
 
         //if ray hits enemy collider, set up hook
         if(hit.collider != null)
         {
-            if (hit.rigidbody.gameObject.tag == "Enemy")
-            {
+            distance = Vector2.Distance(hit.point, transform.position);
 
+            if (distance <= maxLength)
+            {
+                //createHookSprite();
+                Destroy(hookSprite, hookTimeLimit);
                 hook = hit.rigidbody;
-                //hook.transform.position = hit.transform.position;
+                if (hit.rigidbody.gameObject.tag == "Enemy")
+                {
+                    isEnemy = true;
+                    hitPoint = hook.transform.position;
+                }
+                else
+                {
+                    hitPoint = hit.point;
+                }
                 originalHookPos = hook.transform.position;
                 prevDist = Vector2.Distance(originalHookPos, transform.position);
                 timeLeft = hookTimeLimit;
@@ -89,23 +120,48 @@ public class HookShotAttack : SkillClass {
 
                 //decrease hp of player
                 playerController = transform.GetComponent<PlayerController>();
-                if(playerController != null)
+                if (playerController != null)
                 {
                     hookLength = (int)Vector3.Distance(transform.position, hook.transform.position);
                     playerController.hp -= HpCost * hookLength;
                 }
+            }
+            else
+            {
+                hook = null;
+                distance = maxLength;
             }
         }
     }
 
     void pullHook()
     {
-        //if moving away from enemy, pull enemy to player
-        float currDist = Vector2.Distance(originalHookPos, transform.position);
-        if(currDist > prevDist)
-            hook.transform.position = Vector3.MoveTowards(hook.transform.position, transform.position, pullSpeed * Time.deltaTime);
-        //if moving toward enemy, pull to enemy
+        if (isEnemy)
+        {//if moving away from enemy, pull enemy to player
+            float currDist = Vector2.Distance(originalHookPos, transform.position);
+            if (currDist > prevDist)
+            {
+                transform.position = freezePosition; //stop player movement
+                hook.transform.position = Vector3.MoveTowards(hook.transform.position, transform.position + (direction.normalized * endDistance), pullSpeed * 1.3f * Time.deltaTime);
+            }
+            //if moving toward enemy, pull player to enemy
+            else
+            {
+                Vector3 directionEnemy = transform.position - hook.transform.position;
+                transform.position = Vector3.MoveTowards(transform.position, hook.transform.position + (directionEnemy.normalized * endDistance), pullSpeed * Time.deltaTime);
+            }
+        }
         else
-            transform.position = Vector3.MoveTowards(transform.position, hook.transform.position, pullSpeed * Time.deltaTime);
+        {
+            transform.position = Vector3.MoveTowards(transform.position, hitPoint, pullSpeed * Time.deltaTime);
+        }
+    }
+
+    void createHookSprite()
+    {
+        /*hookSprite = Instantiate(hookSpriteGO, gameObject.transform.position, gameObject.transform.rotation);
+        hookSprite.transform.Rotate(0, 0, 90);
+        hookSprite.transform.position = transform.position;
+        hookSprite.transform.localScale = new Vector3(0, 1, 1);*/
     }
 }

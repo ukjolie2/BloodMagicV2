@@ -28,7 +28,7 @@ public class LongRangeSkill : SkillClass {
     {
         if (other.CompareTag("Enemy"))
         {
-            EnemyController enemyHp = other.gameObject.GetComponent<EnemyController>();
+            BasicEnemyController enemyHp = other.gameObject.GetComponent<BasicEnemyController>();
             enemyHp.hp -= Power;
             player.hp += HpReturn;
         }
