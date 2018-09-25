@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     HealthChange healthBar;
 
     //temporary spawnHolder
-    public GameObject spawner;
+    //public GameObject spawner;
     EnemySpawn spawnPoint;
 
     //Player status
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     {
         attacks = gameObject.GetComponent<CreateAttack>();
         healthBar = gameObject.GetComponent<HealthChange>();
-        spawnPoint = spawner.GetComponent<EnemySpawn>();
+        //spawnPoint = spawner.GetComponent<EnemySpawn>();
         move = new Vector3();
 	}
 
@@ -157,6 +157,14 @@ public class PlayerController : MonoBehaviour
         {
             attacks.AttackLongRange();
         }
+        else if(Input.GetButtonDown("Fire2"))
+        {
+            attacks.AttackCloseRange();
+        }
+        else if(Input.GetButtonDown("Fire3"))
+        {
+            attacks.AttackBookRange();
+        }
         if (usingController)
         {
             // Rotate character using right joystick
@@ -180,6 +188,7 @@ public class PlayerController : MonoBehaviour
         //Spawn all the enemies 
         //spawnPoint.spawn();
     }
+
 
     void OnTriggerEnter2D(Collider2D other)
     {

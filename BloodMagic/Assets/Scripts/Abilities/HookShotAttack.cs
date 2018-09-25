@@ -69,16 +69,17 @@ public class HookShotAttack : SkillClass {
         Vector2 position = transform.position;
         Vector2 direction = mousePosition - position;
 
-        //gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
         //cast ray in direction of mouse
         RaycastHit2D hit = Physics2D.Raycast(position, direction, Mathf.Infinity);
-       // gameObject.GetComponent<PolygonCollider2D>().enabled = true;
+        gameObject.GetComponent<BoxCollider2D>().enabled = true;
 
         //if ray hits enemy collider, set up hook
         if(hit.collider != null)
         {
             if (hit.rigidbody.gameObject.tag == "Enemy")
             {
+
                 hook = hit.rigidbody;
                 //hook.transform.position = hit.transform.position;
                 originalHookPos = hook.transform.position;

@@ -11,6 +11,12 @@ public class LongRangeSkill : SkillClass {
         HpCost = 50;
         HpReturn = 51;
         Power = 5;
+        InvokeRepeating("DestroySelf", 3, 1f);
+    }
+
+    private void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 
     public override void UseAbility()
@@ -26,6 +32,9 @@ public class LongRangeSkill : SkillClass {
             enemyHp.hp -= Power;
             player.hp += HpReturn;
         }
-        Destroy(gameObject);
+        if(!other.CompareTag("Player"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
