@@ -70,7 +70,7 @@ public class HookShotAttack : SkillClass {
             else
                 frameNum++;
         }
-        else if (hook != null && timeLeft <= 0f)
+        else if (timeLeft <= 0f)
         {
             //reset hook
             lineRenderer.enabled = false;
@@ -95,14 +95,14 @@ public class HookShotAttack : SkillClass {
         gameObject.GetComponent<Collider2D>().enabled = true;
 
         //if ray hits enemy collider, set up hook
-        if(hit.collider != null)
+        if(hit.collider != null && (hit.rigidbody.gameObject.tag == "Enemy" || hit.rigidbody.gameObject.tag == "Walls"))
         {
             distance = Vector2.Distance(hit.point, transform.position);
 
             if (distance <= maxLength)
             {
                 //createHookSprite();
-                Destroy(hookSprite, hookTimeLimit);
+                //Destroy(hookSprite, hookTimeLimit);
                 hook = hit.rigidbody;
                 if (hit.rigidbody.gameObject.tag == "Enemy")
                 {
