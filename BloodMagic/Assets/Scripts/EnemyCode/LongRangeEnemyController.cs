@@ -21,6 +21,7 @@ public class LongRangeEnemyController : EnemyClass
     {
         if (hp <= 0)
         {
+            attacks.SpawnBlood();
             Destroy(gameObject);
         }
         if(target != null)

@@ -101,7 +101,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tester: 0
-  spawner: {fileID: 0}
   slide: 0
   hp: 150
   moveSpeed: 5
@@ -122,6 +121,8 @@ MonoBehaviour:
     type: 2}
   bookRange: {fileID: 50177852795945388, guid: 63538d35cdec9b54e92d651a5ac3e3ca, type: 2}
   longRange: {fileID: 50853887700869202, guid: 191e5676a8780ba408cb0271656aacf0, type: 2}
+  bloodPuddle: {fileID: 50597286584141132, guid: 7bc114c1a84a3a54d9520d11eef19e54,
+    type: 2}
 --- !u!212 &212964249574404528
 SpriteRenderer:
   m_ObjectHideFlags: 1

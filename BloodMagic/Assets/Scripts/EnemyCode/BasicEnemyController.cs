@@ -7,6 +7,7 @@ public class BasicEnemyController : EnemyClass
     public CloseRangeAttack closeRange;
     CreateAttack attacks;
     int slowDown = 0;
+    public int limit = 0;
     private void Start()
     {
         moveSpeed = 3f;
@@ -19,6 +20,7 @@ public class BasicEnemyController : EnemyClass
     {
         if (hp <= 0)
         {
+            attacks.SpawnBlood();
             Destroy(gameObject);
         }
         if(target != null)
@@ -46,7 +48,7 @@ public class BasicEnemyController : EnemyClass
             }
             else
             {
-                if(slowDown == 5)
+                if(slowDown >= limit)
                 {
                     attacks.AttackCloseRange();
                     slowDown = 0;

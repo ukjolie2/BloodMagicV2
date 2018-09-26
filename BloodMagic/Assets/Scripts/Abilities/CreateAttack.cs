@@ -9,6 +9,7 @@ public class CreateAttack : MonoBehaviour {
     public Rigidbody2D closeRange;
     public Rigidbody2D bookRange;
     public Rigidbody2D longRange;
+    public Rigidbody2D bloodPuddle;
 
     public void AttackLongRange()
     {
@@ -47,5 +48,10 @@ public class CreateAttack : MonoBehaviour {
         BookSkill abilities = clone.GetComponent<BookSkill>();
         abilities.Start();
         abilities.UseAbility();
+    }
+
+    public void SpawnBlood()
+    {
+        var clone = Instantiate(bloodPuddle, gameObject.transform.position, gameObject.transform.rotation);
     }
 }

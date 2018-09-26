@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour {
     // LateUpdate is called after Update each frame
     void LateUpdate()
     {
-        Vector3 newPosition = new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
+        Vector3 newPosition = new Vector3(player.transform.position.x, player.transform.position.y, -100);
         Vector3 finalPosition = Vector3.Lerp(transform.position, newPosition, smoothSpeed);
         transform.position = finalPosition;
     }
