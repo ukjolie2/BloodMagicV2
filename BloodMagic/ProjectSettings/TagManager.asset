@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Blood
   - Walls
+  - Pit
   layers:
   - Default
   - TransparentFX
