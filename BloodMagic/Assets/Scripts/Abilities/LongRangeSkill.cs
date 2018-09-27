@@ -9,8 +9,8 @@ public class LongRangeSkill : SkillClass {
     public void Start()
     {
         player = GameObject.Find("Player").GetComponent<PlayerController>();
-        HpCost = 50;
-        HpReturn = 51;
+        HpCost = 10;
+        HpReturn = 10;
         Power = 5;
         InvokeRepeating("DestroySelf", 3, 1f);
     }

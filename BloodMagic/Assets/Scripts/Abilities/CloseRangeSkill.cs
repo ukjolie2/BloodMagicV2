@@ -10,8 +10,8 @@ public class CloseRangeSkill : SkillClass {
     public void Start()
     {
         player = GameObject.Find("Player").GetComponent<PlayerController>();
-        HpCost = 50;
-        HpReturn = 51;
+        HpCost = 10;
+        HpReturn = 9;
         Power = 5;
     }
 
@@ -30,7 +30,7 @@ public class CloseRangeSkill : SkillClass {
         if(name == "Player")
         {
             player.hp -= HpCost;
-            Invoke("ReturnHealth", 0.05f);
+            Invoke("ReturnHealth", 0.6f);
         }
         else
         {
@@ -39,30 +39,29 @@ public class CloseRangeSkill : SkillClass {
         Invoke("DestroySelf", 0.1f);
     }
 
-    public void ReturnHealth()
-    {
-        if(player.hp + HpReturn > 100)
-        {
-            Debug.Log("this happened");
-            player.hp = 150;
-        }
-        else
-        {
-            player.hp += HpReturn;
-        }
-    }
-
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy") && name == "Player")
         {
             BasicEnemyController enemyHp = other.gameObject.GetComponent<BasicEnemyController>();
             enemyHp.hp -= Power;
-            ReturnHealth();
         }
         else if (name == "Enemy" && other.CompareTag("Player"))
         {
             player.hp -= Power;
+        }
+    }
+
+    private void ReturnHealth()
+    {
+        Debug.Log("hello");
+        if (player.hp + HpReturn > 150)
+        {
+            player.hp = 150;
+        }
+        else
+        {
+            player.hp += HpReturn;
         }
     }
 }

@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     public GameObject Spider;
     public GameObject spiderTarget;
     CameraController c1;
+    private bool fadeToBlack = false;
+    private float alpha = 0f;
+    private float cutSceneWait = 10f;
 
     public int tester;
 
@@ -66,7 +69,8 @@ public class PlayerController : MonoBehaviour
         //Death
         if (hp <= 0)
         {
-            Destroy(gameObject);
+            hp = 150;
+            //Destroy(gameObject);
         }
 
         Vector2 direction;
@@ -225,6 +229,8 @@ public class PlayerController : MonoBehaviour
         else if(cutscene)
         {
             PlayCutscene1();
+            fadeToBlack = true;
+            Debug.Log(fadeToBlack + " MER");
         }
         else
         {
@@ -238,6 +244,20 @@ public class PlayerController : MonoBehaviour
                 c1.CameraImpact();
                 moveSpider = false;
                 mobility = true;
+            }
+        }
+        if (fadeToBlack)
+        {
+            if (cutSceneWait <= 0f)
+            {
+                alpha += .5f * Time.deltaTime;
+                alpha = Mathf.Clamp01(alpha);
+                GameObject blackFadeObj = GameObject.Find("BlackFade");
+                blackFadeObj.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, Mathf.Lerp(0f, 1f, alpha));
+            }
+            else
+            {
+                cutSceneWait -= Time.deltaTime;
             }
         }
     }

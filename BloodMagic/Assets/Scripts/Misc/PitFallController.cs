@@ -38,6 +38,7 @@ public class PitFallController : MonoBehaviour {
                     fall = false;
                     frameNum = -1;
                 }
+                Debug.Log("Speedy speed" + v.magnitude);
             }
             frameNum++;
             if (fall)
@@ -80,4 +81,6 @@ public class PitFallController : MonoBehaviour {
         victimPosition = victim.transform.position;
         victimDirection = victim.transform.eulerAngles;
     }
+
+
 }

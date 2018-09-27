@@ -26,6 +26,7 @@ public class HookShotAttack : SkillClass {
     private Vector3 direction;
     private GameObject hookSprite;
     private float distance;
+    private bool healed = false;
 
     public void Start()
     {
@@ -71,7 +72,7 @@ public class HookShotAttack : SkillClass {
             else
                 frameNum++;
         }
-        else if (timeLeft <= 0f)
+        else if (timeLeft <= 0f && healed == false)
         {
             //reset hook
             lineRenderer.enabled = false;
@@ -81,11 +82,13 @@ public class HookShotAttack : SkillClass {
             isEnemy = false;
             //recover hp
             playerController.hp += HpReturn * hookLength;
+            healed = true;
         }
     }
 
     public override void UseAbility()
     {
+        healed = false;
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 position = transform.position;
         direction = mousePosition - position;
