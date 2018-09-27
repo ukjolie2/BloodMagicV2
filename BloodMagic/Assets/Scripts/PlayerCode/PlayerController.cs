@@ -40,8 +40,8 @@ public class PlayerController : MonoBehaviour
     private float meleeTimeCounter;
     private SpriteRenderer meleeSpriteRenderer;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
     {
         attacks = gameObject.GetComponent<CreateAttack>();
         healthBar = gameObject.GetComponent<HealthChange>();
@@ -236,9 +236,14 @@ public class PlayerController : MonoBehaviour
         {
             slide = true;
         }
-        else if(other.CompareTag("cutscene1"))
+        else if (other.CompareTag("cutscene1"))
         {
+            Destroy(other);
             cutscene = true;
+        }
+        else if(other.CompareTag("Pit"))
+        {
+            Physics2D.IgnoreCollision(other, GetComponent<Collider2D>());
         }
     }
 
@@ -252,11 +257,11 @@ public class PlayerController : MonoBehaviour
 
     void handleMeleeAttack()
     {
-        if(meleeTimeCounter > 0)
+        if (meleeTimeCounter > 0)
         {
             meleeTimeCounter -= Time.deltaTime;
         }
-        else if(meleeTimeCounter <= 0)
+        else if (meleeTimeCounter <= 0)
         {
             meleeAnimator.SetBool("Swipe-Melee-Attacking", false);
             meleeSpriteRenderer.enabled = false;
@@ -266,6 +271,7 @@ public class PlayerController : MonoBehaviour
     void PlayCutscene1()
     {
         CameraController c1 = camera.GetComponent<CameraController>();
-        c1.setTarget();
+        c1.setTarget(target);
+        cutscene = false;
     }
 }
