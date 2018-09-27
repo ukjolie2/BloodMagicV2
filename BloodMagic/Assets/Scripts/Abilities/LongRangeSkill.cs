@@ -27,7 +27,7 @@ public class LongRangeSkill : SkillClass {
 
     public override void UseAbility()
     {
-        if (gameObject.tag == "Player")
+        if (name == "Player")
         {
             player.hp -= HpCost;
         }
