@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour {
     public GameObject player;       //Public variable to store a reference to the player game object
 
     public float smoothSpeed = 0.125f;
+
     // Use this for initialization
     void Start()
     {
@@ -15,7 +16,7 @@ public class CameraController : MonoBehaviour {
     // LateUpdate is called after Update each frame
     void LateUpdate()
     {
-        Vector3 newPosition = new Vector3(player.transform.position.x, player.transform.position.y, -100);
+        Vector3 newPosition = new Vector3(player.transform.position.x, player.transform.position.y, -10);
         Vector3 finalPosition = Vector3.Lerp(transform.position, newPosition, smoothSpeed);
         transform.position = finalPosition;
     }
