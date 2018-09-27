@@ -1,4 +1,8 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/Prototype2.unity
+=======
+- path: Assets/Scenes/JolieEdit.unity
+>>>>>>> 9fad78c4cab67e916d1d575deb8f3d5164edd784
   isLoaded: 1
   isActive: 1
