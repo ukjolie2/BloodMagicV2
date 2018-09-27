@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public GameObject target;
     public GameObject Spider;
     public GameObject spiderTarget;
+    CameraController c1;
 
     public int tester;
 
@@ -46,6 +47,7 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        c1 = camera.GetComponent<CameraController>();
         attacks = gameObject.GetComponent<CreateAttack>();
         healthBar = gameObject.GetComponent<HealthChange>();
         //spawnPoint = spawner.GetComponent<EnemySpawn>();
@@ -226,15 +228,16 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (Vector3.Distance(Spider.transform.position, transform.position) > 5f)
+            if (Vector3.Distance(Spider.transform.position, transform.position) > 10f)
             {
-                direction = new Vector3(0, -20 * Time.deltaTime, 0);
+                direction = new Vector3(0, -50 * Time.deltaTime, 0);
                 Spider.transform.Translate(direction);
             }
             else
             {
-                Spider.transform.Translate(0, 0, 0);
+                c1.CameraImpact();
                 moveSpider = false;
+                mobility = true;
             }
         }
     }
@@ -260,7 +263,8 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("cutscene2"))
         {
             Destroy(other);
-            PlayCutscene2();
+            moveSpider = true;
+            mobility = false;
         }
         else if(other.CompareTag("Pit"))
         {
@@ -291,13 +295,8 @@ public class PlayerController : MonoBehaviour
 
     void PlayCutscene1()
     {
-        CameraController c1 = camera.GetComponent<CameraController>();
         c1.setTarget(target);
         cutscene = false;
     }
-
-    void PlayCutscene2()
-    {
-        moveSpider = true;
-    }
+    
 }
