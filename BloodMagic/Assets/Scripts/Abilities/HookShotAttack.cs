@@ -70,7 +70,7 @@ public class HookShotAttack : SkillClass {
             else
                 frameNum++;
         }
-        else if (hook != null && timeLeft <= 0f)
+        else if (timeLeft <= 0f)
         {
             //reset hook
             lineRenderer.enabled = false;
@@ -91,45 +91,56 @@ public class HookShotAttack : SkillClass {
 
         gameObject.GetComponent<Collider2D>().enabled = false;
         //cast ray in direction of mouse
-        RaycastHit2D hit = Physics2D.Raycast(position, direction, Mathf.Infinity);
+        //RaycastHit2D hit = Physics2D.Raycast(position, direction, Mathf.Infinity);
+
+        RaycastHit2D[] hits = Physics2D.RaycastAll(position, direction, Mathf.Infinity);
+
         gameObject.GetComponent<Collider2D>().enabled = true;
 
+        
         //if ray hits enemy collider, set up hook
-        if(hit.collider != null)
+        if(hits[0].collider != null)
         {
-            distance = Vector2.Distance(hit.point, transform.position);
-
-            if (distance <= maxLength)
+            int hookIndex = 0;
+            while(hits[hookIndex].transform.gameObject.tag == "Pit")
             {
-                //createHookSprite();
-                Destroy(hookSprite, hookTimeLimit);
-                hook = hit.rigidbody;
-                if (hit.rigidbody.gameObject.tag == "Enemy")
+                hookIndex++;
+            }
+            if (hits[hookIndex].transform.gameObject.tag == "Enemy" || hits[hookIndex].transform.gameObject.tag == "Walls")
+            {
+                distance = Vector2.Distance(hits[hookIndex].point, transform.position);
+                if (distance <= maxLength)
                 {
-                    isEnemy = true;
-                    hitPoint = hook.transform.position;
+                    //createHookSprite();
+                    //Destroy(hookSprite, hookTimeLimit);
+                    hook = hits[hookIndex].rigidbody;
+                    if (hits[hookIndex].rigidbody.gameObject.tag == "Enemy")
+                    {
+                        isEnemy = true;
+                        hitPoint = hook.transform.position;
+                    }
+                    else
+                    {
+                        hitPoint = hits[hookIndex].point;
+                    }
+                    originalHookPos = hook.transform.position;
+                    prevDist = Vector2.Distance(originalHookPos, transform.position);
+                    timeLeft = hookTimeLimit;
+                    hookCount = 1;
+
+                    //decrease hp of player
+                    playerController = transform.GetComponent<PlayerController>();
+                    if (playerController != null)
+                    {
+                        hookLength = (int)Vector3.Distance(transform.position, hook.transform.position);
+                        playerController.hp -= HpCost * hookLength;
+                    }
                 }
                 else
                 {
-                    hitPoint = hit.point;
+                    hook = null;
+                    distance = maxLength;
                 }
-                originalHookPos = hook.transform.position;
-                prevDist = Vector2.Distance(originalHookPos, transform.position);
-                timeLeft = hookTimeLimit;
-                hookCount = 1;
-
-                //decrease hp of player
-                playerController = transform.GetComponent<PlayerController>();
-                if (playerController != null)
-                {
-                    hookLength = (int)Vector3.Distance(transform.position, hook.transform.position);
-                    playerController.hp -= HpCost * hookLength;
-                }
-            }
-            else
-            {
-                hook = null;
-                distance = maxLength;
             }
         }
     }

@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Blood
   - Walls
+  - Pit
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 46360601
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 2822669119
+    locked: 0
+  - name: Foreground
+    uniqueID: 4032649087
     locked: 0

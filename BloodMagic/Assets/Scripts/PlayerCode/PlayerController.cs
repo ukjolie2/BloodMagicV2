@@ -28,6 +28,13 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 5.0f;
     public bool usingController = false;
 
+    //Attack Animations
+    //melee
+    private Animator meleeAnimator;
+    private float meleeTime = .25f;
+    private float meleeTimeCounter;
+    private SpriteRenderer meleeSpriteRenderer;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -35,7 +42,12 @@ public class PlayerController : MonoBehaviour
         healthBar = gameObject.GetComponent<HealthChange>();
         //spawnPoint = spawner.GetComponent<EnemySpawn>();
         move = new Vector3();
-	}
+
+        //melee attack
+        GameObject meleeGameObj = GameObject.Find("Swipe-Melee-Attack-Sprite");
+        meleeAnimator = meleeGameObj.GetComponent<Animator>();
+        meleeSpriteRenderer = meleeGameObj.GetComponent<SpriteRenderer>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -59,6 +71,9 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetButtonDown("Fire2"))
         {
+            meleeTimeCounter = meleeTime;
+            meleeSpriteRenderer.enabled = true;
+            meleeAnimator.SetBool("Swipe-Melee-Attacking", true);
             attacks.AttackCloseRange();
             mobility = false;
         }
@@ -193,6 +208,7 @@ public class PlayerController : MonoBehaviour
             //move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
             transform.position += move * Time.deltaTime;
         }
+        handleMeleeAttack();
     }
 
     private void LateUpdate()
@@ -215,6 +231,19 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Blood"))
         {
             slide = false;
+        }
+    }
+
+    void handleMeleeAttack()
+    {
+        if(meleeTimeCounter > 0)
+        {
+            meleeTimeCounter -= Time.deltaTime;
+        }
+        else if(meleeTimeCounter <= 0)
+        {
+            meleeAnimator.SetBool("Swipe-Melee-Attacking", false);
+            meleeSpriteRenderer.enabled = false;
         }
     }
 }
