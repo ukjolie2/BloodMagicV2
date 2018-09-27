@@ -11,6 +11,7 @@ TagManager:
   - Pit
   - cutscene
   - cutscene1
+  - cutscene2
   layers:
   - Default
   - TransparentFX
@@ -51,9 +52,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Blood
+    uniqueID: 474168201
+    locked: 0
   - name: Player
     uniqueID: 2822669119
     locked: 0
   - name: Foreground
     uniqueID: 4032649087
+    locked: 0
+  - name: Attacks
+    uniqueID: 1741996563
     locked: 0

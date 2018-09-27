@@ -7,8 +7,11 @@ public class PlayerController : MonoBehaviour
 
     //temp
     bool cutscene = false;
+    bool moveSpider = false;
     public Camera camera;
     public GameObject target;
+    public GameObject Spider;
+    public GameObject spiderTarget;
 
     public int tester;
 
@@ -68,7 +71,7 @@ public class PlayerController : MonoBehaviour
         float angle = 0f;
         Quaternion rotation;
 
-        if (!cutscene)
+        if (!cutscene && !moveSpider)
         {
             //Attack
             if (Input.GetButtonDown("Fire1"))
@@ -217,9 +220,22 @@ public class PlayerController : MonoBehaviour
             }
             handleMeleeAttack();
         }
-        else
+        else if(cutscene)
         {
             PlayCutscene1();
+        }
+        else
+        {
+            if (Vector3.Distance(Spider.transform.position, transform.position) > 5f)
+            {
+                direction = new Vector3(0, -20 * Time.deltaTime, 0);
+                Spider.transform.Translate(direction);
+            }
+            else
+            {
+                Spider.transform.Translate(0, 0, 0);
+                moveSpider = false;
+            }
         }
     }
 
@@ -240,6 +256,11 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(other);
             cutscene = true;
+        }
+        else if (other.CompareTag("cutscene2"))
+        {
+            Destroy(other);
+            PlayCutscene2();
         }
         else if(other.CompareTag("Pit"))
         {
@@ -273,5 +294,10 @@ public class PlayerController : MonoBehaviour
         CameraController c1 = camera.GetComponent<CameraController>();
         c1.setTarget(target);
         cutscene = false;
+    }
+
+    void PlayCutscene2()
+    {
+        moveSpider = true;
     }
 }
