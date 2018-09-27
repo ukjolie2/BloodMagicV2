@@ -54,7 +54,7 @@ public class CloseRangeSkill : SkillClass {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Enemy") && gameObject.CompareTag("Player"))
+        if (other.CompareTag("Enemy") && name == "Player")
         {
             BasicEnemyController enemyHp = other.gameObject.GetComponent<BasicEnemyController>();
             enemyHp.hp -= Power;
