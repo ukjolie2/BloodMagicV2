@@ -32,6 +32,7 @@ public class HookShotAttack : SkillClass {
         HpCost = 1; //must be multiplied by the hook length
         HpReturn = 1;
         Power = 1;
+        playerController = transform.GetComponent<PlayerController>();
     }
 
     void Update ()
@@ -129,7 +130,6 @@ public class HookShotAttack : SkillClass {
                     hookCount = 1;
 
                     //decrease hp of player
-                    playerController = transform.GetComponent<PlayerController>();
                     if (playerController != null)
                     {
                         hookLength = (int)Vector3.Distance(transform.position, hook.transform.position);
