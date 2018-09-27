@@ -5,6 +5,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
+    //temp
+    bool cutscene = false;
+    public Camera camera;
+    public GameObject target;
+
     public int tester;
 
     //this class spawns the attacks the player uses
@@ -63,152 +68,159 @@ public class PlayerController : MonoBehaviour
         float angle = 0f;
         Quaternion rotation;
 
-        //Attack
-        if (Input.GetButtonDown("Fire1"))
+        if (!cutscene)
         {
-            attacks.AttackLongRange();
-            mobility = false;
-        }
-        else if (Input.GetButtonDown("Fire2"))
-        {
-            meleeTimeCounter = meleeTime;
-            meleeSpriteRenderer.enabled = true;
-            meleeAnimator.SetBool("Swipe-Melee-Attacking", true);
-            attacks.AttackCloseRange();
-            mobility = false;
-        }
-        else if (Input.GetButtonDown("Fire3"))
-        {
-            attacks.AttackBookRange();
-            mobility = false;
-        }
-        else
-        {
-            mobility = true;
-        }
-
-        if (usingController)
-        {
-            // Rotate character using right joystick
-            direction = new Vector2(Input.GetAxis("RightJoystickHorizontal"), Input.GetAxis("RightJoystickVertical"));
-            angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            if (angle == 0) { rotation = Quaternion.AngleAxis(0, Vector3.forward); }
-            else { rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward); }
-        }
-        else
-        {
-            // Rotate character towards mouse
-            direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-            angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-        }
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-
-        if (mobility)
-        {
-            float xDir = Input.GetAxis("Horizontal");
-            float yDir = Input.GetAxis("Vertical");
-            if (xDir < 0)
+            //Attack
+            if (Input.GetButtonDown("Fire1"))
             {
-                if (slide)
-                {
-                    if (move.x > 0)
-                    {
-                        move.x += -moveSpeed * 0.002f;
-                    }
-                    else
-                    {
-                        move.x += -moveSpeed * 0.11f * tester;
-                    }
-                }
-                else
-                {
-                    move.x = -moveSpeed;
-                }
+                attacks.AttackLongRange();
+                mobility = false;
             }
-            else if (xDir > 0)
+            else if (Input.GetButtonDown("Fire2"))
             {
-                if (slide)
-                {
-                    if (move.x < 0)
-                    {
-                        move.x += moveSpeed * 0.002f;
-                    }
-                    else
-                    {
-                        move.x += moveSpeed * 0.11f * tester;
-                    }
-                }
-                else
-                {
-                    move.x = moveSpeed;
-                }
+                meleeTimeCounter = meleeTime;
+                meleeSpriteRenderer.enabled = true;
+                meleeAnimator.SetBool("Swipe-Melee-Attacking", true);
+                attacks.AttackCloseRange();
+                mobility = false;
+            }
+            else if (Input.GetButtonDown("Fire3"))
+            {
+                attacks.AttackBookRange();
+                mobility = false;
             }
             else
             {
-                if (slide)
-                {
-                    move.x -= move.x * 0.05f;
-                }
-                else
-                {
-                    move.x = 0;
-                }
+                mobility = true;
             }
 
-
-            if (yDir < 0)
+            if (usingController)
             {
-                if (slide)
-                {
-                    if (move.y > 0)
-                    {
-                        move.y += -moveSpeed * 0.002f * tester;
-                    }
-                    else
-                    {
-                        move.y += -moveSpeed * 0.11f * tester;
-                    }
-                }
-                else
-                {
-                    move.y = -moveSpeed;
-                }
-            }
-            else if (yDir > 0)
-            {
-                if (slide)
-                {
-                    if (move.y < 0)
-                    {
-                        move.y += moveSpeed * 0.002f * tester;
-                    }
-                    else
-                    {
-                        move.y += moveSpeed * 0.11f * tester;
-                    }
-                }
-                else
-                {
-                    move.y = moveSpeed;
-                }
+                // Rotate character using right joystick
+                direction = new Vector2(Input.GetAxis("RightJoystickHorizontal"), Input.GetAxis("RightJoystickVertical"));
+                angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                if (angle == 0) { rotation = Quaternion.AngleAxis(0, Vector3.forward); }
+                else { rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward); }
             }
             else
             {
-                if (slide)
+                // Rotate character towards mouse
+                direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+            }
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+
+            if (mobility)
+            {
+                float xDir = Input.GetAxis("Horizontal");
+                float yDir = Input.GetAxis("Vertical");
+                if (xDir < 0)
                 {
-                    move.y -= move.y * 0.05f;
+                    if (slide)
+                    {
+                        if (move.x > 0)
+                        {
+                            move.x += -moveSpeed * 0.002f;
+                        }
+                        else
+                        {
+                            move.x += -moveSpeed * 0.11f * tester;
+                        }
+                    }
+                    else
+                    {
+                        move.x = -moveSpeed;
+                    }
+                }
+                else if (xDir > 0)
+                {
+                    if (slide)
+                    {
+                        if (move.x < 0)
+                        {
+                            move.x += moveSpeed * 0.002f;
+                        }
+                        else
+                        {
+                            move.x += moveSpeed * 0.11f * tester;
+                        }
+                    }
+                    else
+                    {
+                        move.x = moveSpeed;
+                    }
                 }
                 else
                 {
-                    move.y = 0;
+                    if (slide)
+                    {
+                        move.x -= move.x * 0.05f;
+                    }
+                    else
+                    {
+                        move.x = 0;
+                    }
                 }
+
+
+                if (yDir < 0)
+                {
+                    if (slide)
+                    {
+                        if (move.y > 0)
+                        {
+                            move.y += -moveSpeed * 0.002f * tester;
+                        }
+                        else
+                        {
+                            move.y += -moveSpeed * 0.11f * tester;
+                        }
+                    }
+                    else
+                    {
+                        move.y = -moveSpeed;
+                    }
+                }
+                else if (yDir > 0)
+                {
+                    if (slide)
+                    {
+                        if (move.y < 0)
+                        {
+                            move.y += moveSpeed * 0.002f * tester;
+                        }
+                        else
+                        {
+                            move.y += moveSpeed * 0.11f * tester;
+                        }
+                    }
+                    else
+                    {
+                        move.y = moveSpeed;
+                    }
+                }
+                else
+                {
+                    if (slide)
+                    {
+                        move.y -= move.y * 0.05f;
+                    }
+                    else
+                    {
+                        move.y = 0;
+                    }
+                }
+                // Translate character
+                //move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+                transform.position += move * Time.deltaTime;
             }
-            // Translate character
-            //move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-            transform.position += move * Time.deltaTime;
+            handleMeleeAttack();
         }
-        handleMeleeAttack();
+        else
+        {
+            PlayCutscene1();
+        }
     }
 
     private void LateUpdate()
@@ -223,6 +235,10 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Blood"))
         {
             slide = true;
+        }
+        else if(other.CompareTag("cutscene1"))
+        {
+            cutscene = true;
         }
     }
 
@@ -245,5 +261,11 @@ public class PlayerController : MonoBehaviour
             meleeAnimator.SetBool("Swipe-Melee-Attacking", false);
             meleeSpriteRenderer.enabled = false;
         }
+    }
+
+    void PlayCutscene1()
+    {
+        CameraController c1 = camera.GetComponent<CameraController>();
+        c1.setTarget();
     }
 }
